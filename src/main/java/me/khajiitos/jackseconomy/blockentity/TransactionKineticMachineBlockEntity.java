@@ -1,6 +1,8 @@
 package me.khajiitos.jackseconomy.blockentity;
 
+import com.simibubi.create.api.stress.BlockStressValues;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import me.khajiitos.jackseconomy.IBlockStressValue;
 import me.khajiitos.jackseconomy.util.RedstoneToggle;
 import me.khajiitos.jackseconomy.util.SideConfig;
 import net.minecraft.core.BlockPos;
@@ -81,6 +83,20 @@ public abstract class TransactionKineticMachineBlockEntity extends KineticBlockE
         super.write(compound, clientPacket);
         ContainerHelper.saveAllItems(compound, this.items);
         this.saveMachineData(compound);
+    }
+
+    @Override
+    public float calculateAddedStressCapacity() {
+        float capacity = (float) IBlockStressValue.getCapacity(this.getStressConfigKey());
+        this.lastCapacityProvided = capacity;
+        return capacity;
+    }
+
+    @Override
+    public float calculateStressApplied() {
+        float impact = (float) IBlockStressValue.getImpact(this.getStressConfigKey());
+        this.lastStressApplied = impact;
+        return impact;
     }
 
     @NotNull
