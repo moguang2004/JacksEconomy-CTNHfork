@@ -209,11 +209,16 @@ public class MechanicalImporterBlockEntity extends TransactionKineticMachineBloc
         }
 
         if (importer.selectedItem != null) {
+            boolean select = false;
             for (ItemDescription itemDescription : items) {
                 if (importer.selectedItem.equals(itemDescription)) {
                     itemStackToAdd = itemDescription.createItemStack();
+                    select = true;
                     break;
                 }
+            }
+            if (!select) {
+                importer.selectedItem = null;
             }
         }
 
